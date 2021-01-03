@@ -4,6 +4,9 @@ import { Signup } from './screens/auth/Signup/Signup';
 import { Container } from 'react-bootstrap';
 import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './screens/auth/Dashboard/Dashboard';
+import Login from './screens/auth/Login/Login';
+import PrivateRoute from './components/auth/PrivateRoute/PrivateRoute';
+import ForgotPassword from './screens/auth/ForgotPassword/ForgotPassword';
 
 function App() {
   return (
@@ -14,13 +17,14 @@ function App() {
       <div className="w-100" style={{ maxWidth: '400px' }}>
         <AuthProvider>
           <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route to="/signup" component={Signup} />
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/forgot-password" component={ForgotPassword} />
           </Switch>
         </AuthProvider>
       </div>
     </Container>
   );
 }
-
 export default App;
