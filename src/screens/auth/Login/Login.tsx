@@ -19,9 +19,9 @@ export default function Login() {
         setIsLoading(true);
         setError('');
         await login(emailRef.current.value, passwordRef.current.value);
-        history.push('/');
-      } catch {
-        setError('failed to sign in');
+        history.push('/profile');
+      } catch (error) {
+        setError(error.message);
       }
     }
     setIsLoading(false);

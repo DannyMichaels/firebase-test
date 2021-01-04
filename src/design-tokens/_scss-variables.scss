@@ -3,3 +3,10 @@ $spacer-s: 8px;
 $spacer-m: 12px;
 $spacer-l: 17px;
 $spacer-xl: 28px;
+$low-pad: 10px;
+$mid-pad: 50px;
+//fonts
+$roboto: 'roboto', sans-serif;
+$loud: clamp(22px, 10vw, 80px);
+$attention: clamp(25px, 5vw, 40px);
+$calm: 16px;
