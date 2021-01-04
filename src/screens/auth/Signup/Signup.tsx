@@ -30,7 +30,7 @@ export const Signup: React.FC = () => {
 
         history.push('/profile');
       } catch (error) {
-        setError('failed to create an account');
+        setError(error.message);
       }
     }
     setIsLoading(false);
