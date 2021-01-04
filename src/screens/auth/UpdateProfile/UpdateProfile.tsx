@@ -24,7 +24,7 @@ export const UpdateProfile: React.FC = () => {
         return setError('Passwords do not match');
       }
       // gotta give the array a type so we don't get an error(tsx)
-      const promises: string[] = [];
+      const promises: Array<any> = [];
       if (emailRef.current.value !== currentUser?.email) {
         promises.push(updateEmail(emailRef.current.value));
       }
@@ -33,8 +33,8 @@ export const UpdateProfile: React.FC = () => {
         setError('');
         await updatePassword(passwordRef.current.value);
         history.push('/');
-      } catch {
-        setError('failed to create an account');
+      } catch (error) {
+        setError(error.message);
       }
     }
     setIsLoading(false);

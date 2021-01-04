@@ -10,12 +10,12 @@ import firebase from 'firebase/app';
 
 interface IAuthContext {
   currentUser: firebase.User | null;
-  signup(email: string, password: string): Promise<any>;
-  logout(): Promise<any>;
-  updateEmail(email: string);
-  updatePassword(password: string);
-  login(email: string, password: string);
-  resetPassword: (email: string) => Promise<any>;
+  signup(email: string, password: string): Promise<void>;
+  logout: () => Promise<void>;
+  updateEmail(email: string): Promise<void>;
+  updatePassword(password: string): Promise<void>;
+  login(email: string, password: string): Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={value as IAuthContext}>
       {/* if we're not loading, then we want to render the children */}
       {!loading && children}
     </AuthContext.Provider>

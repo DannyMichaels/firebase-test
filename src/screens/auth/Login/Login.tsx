@@ -20,8 +20,8 @@ export default function Login() {
         setError('');
         await login(emailRef.current.value, passwordRef.current.value);
         history.push('/profile');
-      } catch {
-        setError('failed to sign in');
+      } catch (error) {
+        setError(error.message);
       }
     }
     setIsLoading(false);
