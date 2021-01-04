@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   // firebase way of handling auth.
   function signup(email, password) {
-    auth.createUserWithEmailAndPassword(email, password);
+    return auth.createUserWithEmailAndPassword(email, password);
   }
 
   function login(email, password) {
@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    return auth.signOut;
+    return auth.signOut();
   }
 
   function resetPassword(email) {
@@ -40,6 +40,9 @@ export function AuthProvider({ children }) {
       setCurrentUser(user);
       setLoading(false);
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const value = {
@@ -49,6 +52,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    login,
   };
 
   return (
