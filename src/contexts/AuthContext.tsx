@@ -1,21 +1,38 @@
-import React, { useContext, createContext, useState, useEffect } from 'react';
+import React, {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  SetStateAction,
+} from 'react';
 import { auth } from '../firebase';
+import firebase from 'firebase/app';
 
-const AuthContext = createContext();
+interface IAuthContext {
+  currentUser: firebase.User | null;
+  signup(email: string, password: string): Promise<any>;
+  logout(): Promise<any>;
+  updateEmail(email: string);
+  updatePassword(password: string);
+  login(email: string, password: string);
+  resetPassword: (email: string) => Promise<any>;
+}
+
+const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
   // firebase way of handling auth.
-  function signup(email, password) {
+  function signup(email: string, password: string) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
-  function login(email, password) {
+  function login(email: string, password: string) {
     return auth.signInWithEmailAndPassword(email, password);
   }
 
@@ -23,21 +40,21 @@ export function AuthProvider({ children }) {
     return auth.signOut();
   }
 
-  function resetPassword(email) {
+  function resetPassword(email: string) {
     return auth.sendPasswordResetEmail(email);
   }
 
-  function updateEmail(email) {
-    return currentUser.updateEmail(email);
+  function updateEmail(email: string) {
+    return currentUser?.updateEmail(email);
   }
 
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
+  function updatePassword(password: string) {
+    return currentUser?.updatePassword(password);
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user);
+      setCurrentUser(user as React.SetStateAction<firebase.User | null>);
       setLoading(false);
     });
     return () => {

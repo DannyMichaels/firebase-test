@@ -25,16 +25,16 @@ export const UpdateProfile: React.FC = () => {
       }
       // gotta give the array a type so we don't get an error(tsx)
       const promises: string[] = [];
-      if (emailRef.current.value !== currentUser.email) {
+      if (emailRef.current.value !== currentUser?.email) {
         promises.push(updateEmail(emailRef.current.value));
       }
       try {
         setIsLoading(true);
         setError('');
-        // await signup(emailRef.current.value, passwordRef.current.value);
-        return history.push('/');
+        await updatePassword(passwordRef.current.value);
+        history.push('/');
       } catch {
-        return setError('failed to create an account');
+        setError('failed to create an account');
       }
     }
     setIsLoading(false);
@@ -45,30 +45,32 @@ export const UpdateProfile: React.FC = () => {
         <Card.Body>
           <h2 className="text-center mb-4">Update Profile</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                defaultValue={currentUser?.email}
-                ref={emailRef}
-                type="email"
-                required
-              />
-            </Form.Group>
+          {currentUser && (
+            <Form onSubmit={handleSubmit}>
+              <Form.Group id="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  defaultValue={currentUser.email as string}
+                  ref={emailRef}
+                  type="email"
+                  required
+                />
+              </Form.Group>
 
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control ref={passwordRef} type="password" required />
-            </Form.Group>
+              <Form.Group id="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control ref={passwordRef} type="password" required />
+              </Form.Group>
 
-            <Form.Group id="passwordConfirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control ref={passwordConfirmRef} type="passwordConfirm" />
-            </Form.Group>
-            <Button disabled={isLoading} className="w-100" type="submit">
-              Update
-            </Button>
-          </Form>
+              <Form.Group id="passwordConfirm">
+                <Form.Label>Password Confirmation</Form.Label>
+                <Form.Control ref={passwordConfirmRef} type="passwordConfirm" />
+              </Form.Group>
+              <Button disabled={isLoading} className="w-100" type="submit">
+                Update
+              </Button>
+            </Form>
+          )}
         </Card.Body>
       </Card>
 
