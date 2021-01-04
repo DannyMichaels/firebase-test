@@ -27,7 +27,7 @@ export const Signup: React.FC = () => {
         setIsLoading(true);
         setError('');
         await signup(emailRef.current.value, passwordRef.current.value);
-        return history.push('/');
+        return history.push('/profile');
       } catch {
         return setError('failed to create an account');
       }

@@ -19,7 +19,7 @@ export default function Login() {
         setIsLoading(true);
         setError('');
         await login(emailRef.current.value, passwordRef.current.value);
-        history.push('/');
+        history.push('/profile');
       } catch {
         setError('failed to sign in');
       }
